@@ -1,0 +1,15 @@
+{
+  "name": "arnako",
+  "version": "1.0.0",
+  "description": "ArnaKO : détecteur de fausses offres d'emploi. Colle le message reçu, ArnaKO repère les signes d'arnaque. Tout se passe dans le navigateur.",
+  "private": true,
+  "license": "MIT",
+  "scripts": {
+    "test": "node --test tests/detecteur.test.js",
+    "evaluer": "node tests/evaluer.js",
+    "start": "python3 -m http.server 8000"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

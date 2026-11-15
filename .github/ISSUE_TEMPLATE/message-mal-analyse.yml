@@ -1,0 +1,42 @@
+name: Message mal analysé
+description: Une arnaque ratée, ou une vraie offre accusée à tort
+title: "[Message mal analysé] "
+labels: ["banc d'essai"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Merci ! Chaque message signalé améliore ArnaKO.
+        **Avant de coller le message, retire toute information personnelle** : ton nom, ton numéro, ton adresse, tes codes. Remplace-les par XX.
+  - type: textarea
+    id: message
+    attributes:
+      label: Le message (anonymisé)
+      description: Colle le texte du message, sans tes informations personnelles.
+    validations:
+      required: true
+  - type: dropdown
+    id: obtenu
+    attributes:
+      label: Verdict donné par ArnaKO
+      options:
+        - Rien d'alarmant
+        - Prudence
+        - Très suspect
+    validations:
+      required: true
+  - type: dropdown
+    id: attendu
+    attributes:
+      label: Ce que c'était vraiment
+      options:
+        - Une arnaque
+        - Une vraie offre
+        - Je ne sais pas
+    validations:
+      required: true
+  - type: textarea
+    id: details
+    attributes:
+      label: Détails (facultatif)
+      description: Comment as-tu su que c'était une arnaque ou une vraie offre ?
