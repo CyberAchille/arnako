@@ -23,25 +23,25 @@
   const NIVEAUX = [
     {
       id: "ok", min: 0, libelle: "Rien d'alarmant",
-      resume: "Aucun signal d'arnaque important dans ce message. Reste quand même vigilant : vérifie toujours l'entreprise avant de t'engager.",
+      resume: "Aucun signe d'arnaque connu dans ce message. Vérifie quand même l'entreprise avant de t'engager.",
     },
     {
       id: "prudence", min: 2, libelle: "Prudence",
-      resume: "Quelques signaux d'alerte. Vérifie l'entreprise avant d'aller plus loin, et ne paie rien.",
+      resume: "Quelques signaux d'alerte. Vérifie l'entreprise avant d'aller plus loin.",
     },
     {
       id: "suspect", min: 4, libelle: "Très suspect",
-      resume: "Ce message ressemble fort aux arnaques connues. Ne paie rien, n'envoie aucun code ni document, et coupe le contact.",
+      resume: "Ce message ressemble fortement aux arnaques connues. Ne paie rien et coupe le contact.",
     },
   ];
 
   const CATEGORIES = [
-    { id: "argent", libelle: "Argent demandé", conseil: "Ne paie rien, sous aucun prétexte : frais, caution, kit, formation, visa ou « recharge »." },
-    { id: "secrets", libelle: "Codes et données sensibles", conseil: "Ne donne aucun code reçu par SMS, aucun mot de passe, aucune info de carte bancaire, et pas tes papiers d'identité à un inconnu." },
-    { id: "contact", libelle: "Contacts, liens et applis", conseil: "N'installe rien et n'ouvre pas les liens. Cherche toi-même le site officiel de l'entreprise." },
-    { id: "promesses", libelle: "Promesses trop belles", conseil: "Compare avec les salaires habituels : quand c'est trop beau, c'est presque toujours faux." },
-    { id: "pression", libelle: "Pression et secret", conseil: "Prends ton temps : une vraie offre ne disparaît pas en quelques heures." },
-    { id: "schemas", libelle: "Arnaques connues", conseil: "Ce message suit un scénario d'arnaque bien connu : coupe le contact." },
+    { id: "argent", libelle: "Argent demandé", conseil: "Ne paie rien : ni frais, ni caution, ni kit, ni « recharge »." },
+    { id: "secrets", libelle: "Codes et données sensibles", conseil: "Ne donne aucun code reçu par SMS, mot de passe ou document d'identité." },
+    { id: "contact", libelle: "Contacts, liens et applis", conseil: "N'installe rien et n'ouvre pas les liens du message." },
+    { id: "promesses", libelle: "Promesses trop belles", conseil: "Méfie-toi des gains trop beaux pour être vrais." },
+    { id: "pression", libelle: "Pression et secret", conseil: "Prends ton temps : une vraie offre n'expire pas en quelques heures." },
+    { id: "schemas", libelle: "Arnaques connues", conseil: "C'est un scénario d'arnaque connu : coupe le contact." },
     { id: "forme", libelle: "Forme du message", conseil: "" },
   ];
 

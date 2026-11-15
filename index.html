@@ -6,103 +6,128 @@
   <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'none'; base-uri 'none'; form-action 'none'">
   <meta name="referrer" content="no-referrer">
   <title>ArnaKO</title>
-  <meta name="description" content="Colle une offre d'emploi reçue sur WhatsApp, par SMS ou par e-mail : ArnaKO repère les signes d'arnaque et t'explique pourquoi. Gratuit, sans inscription, rien n'est envoyé.">
+  <meta name="description" content="Colle une offre d'emploi reçue sur WhatsApp, par SMS ou par e-mail : ArnaKO repère les signes d'arnaque en une seconde. Gratuit, sans inscription, rien n'est envoyé.">
   <meta property="og:title" content="ArnaKO, le détecteur de fausses offres d'emploi">
-  <meta property="og:description" content="Colle le message reçu, ArnaKO repère les signes d'arnaque et t'explique pourquoi. Rien ne quitte ton téléphone.">
+  <meta property="og:description" content="Colle le message reçu, ArnaKO repère les signes d'arnaque. Rien ne quitte ton téléphone.">
   <meta property="og:type" content="website">
-  <meta name="theme-color" content="#edf1f7">
+  <meta name="theme-color" content="#0b1736">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="css/style.css">
   <script src="js/detecteur.js" defer></script>
   <script src="js/app.js" defer></script>
 </head>
 <body>
-  <div class="page">
-    <header class="entete">
+  <header class="hero">
+    <canvas class="guilloche" id="guilloche" aria-hidden="true"></canvas>
+    <nav class="barre conteneur" aria-label="Navigation">
       <a class="logo" href="./" aria-label="ArnaKO, accueil">Arna<span class="logo-ko">KO</span></a>
-      <nav class="entete-liens" aria-label="Liens">
-        <a class="lien-secondaire" href="#comment">Comment ça marche</a>
-        <a href="https://github.com/CyberAchille/arnako">Code source</a>
-      </nav>
-    </header>
+      <div class="barre-liens">
+        <button class="lien-barre" type="button" data-ouvrir="dlg-comment">Comment ça marche</button>
+        <a class="lien-barre" href="https://github.com/CyberAchille/arnako">GitHub</a>
+      </div>
+    </nav>
+    <div class="hero-texte conteneur">
+      <h1>Cette offre d'emploi est-elle une arnaque&nbsp;?</h1>
+      <p>Colle le message reçu. ArnaKO repère les signes d'arnaque en une seconde.</p>
+    </div>
+  </header>
 
-    <main class="atelier">
-      <section class="saisie" aria-labelledby="titre">
-        <h1 class="titre-principal" id="titre">Cette offre d'emploi est-elle une arnaque&nbsp;?</h1>
-        <p class="chapo">Colle le message reçu sur WhatsApp, par SMS, par e-mail ou sur Facebook. ArnaKO le passe au crible et t'explique ce qui cloche.</p>
-        <p class="confidentialite">
-          <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M12 2a5 5 0 0 0-5 5v3H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8a2 2 0 0 0-2-2h-1V7a5 5 0 0 0-5-5Zm-3 5a3 3 0 1 1 6 0v3H9V7Zm3 7a2 2 0 0 1 1 3.73V19h-2v-1.27A2 2 0 0 1 12 14Z"/></svg>
-          <span>Ton message ne quitte pas ton appareil&nbsp;: l'analyse se fait entièrement dans ton navigateur, sans inscription.</span>
-        </p>
+  <main class="conteneur principal">
+    <form class="saisie" id="formulaire" novalidate>
+      <label class="visuellement-cache" for="message">Le message reçu</label>
+      <textarea id="message" name="message" spellcheck="false" autocomplete="off" placeholder="Colle ici le message reçu sur WhatsApp, par SMS ou par e-mail…" aria-describedby="aide"></textarea>
+      <div class="saisie-barre">
+        <div class="saisie-outils">
+          <button class="outil" type="button" id="coller">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 4h6M9 4a2 2 0 0 0-2 2v0h10v0a2 2 0 0 0-2-2M7 6H6a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-1"/></svg>
+            Coller
+          </button>
+          <button class="outil" type="button" id="exemple">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 6h16M4 12h10M4 18h7"/></svg>
+            Exemple
+          </button>
+          <button class="outil" type="button" id="effacer" hidden>
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6L6 18"/></svg>
+            Effacer
+          </button>
+        </div>
+        <button class="bouton-analyser" type="submit" id="analyser">Analyser</button>
+      </div>
+    </form>
+    <p class="aide" id="aide" aria-live="polite"></p>
+    <p class="confidentialite">
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>
+      Rien n'est envoyé&nbsp;: l'analyse se fait sur ton appareil.
+    </p>
 
-        <form class="zone-message" id="formulaire" novalidate>
-          <label for="message">Le message reçu</label>
-          <textarea id="message" name="message" spellcheck="false" autocomplete="off" placeholder="Colle ici l'offre d'emploi reçue…" aria-describedby="aide"></textarea>
-          <p class="aide-saisie" id="aide" aria-live="polite">Astuce&nbsp;: Ctrl + Entrée lance l'analyse.</p>
-          <div class="actions">
-            <button class="bouton bouton-principal" type="submit" id="analyser">Analyser le message</button>
-            <button class="bouton" type="button" id="coller">Coller</button>
-            <button class="bouton" type="button" id="exemple">Essayer un exemple</button>
-            <button class="bouton bouton-discret" type="button" id="effacer">Effacer</button>
-          </div>
-        </form>
-      </section>
-
-      <section class="resultat" id="resultat" aria-live="polite" aria-label="Résultat de l'analyse">
-        <noscript>
-          <p>ArnaKO a besoin de JavaScript pour analyser le message. Rien n'est envoyé&nbsp;: tout se passe sur ton appareil.</p>
-        </noscript>
-      </section>
-    </main>
-
-    <section class="infos" aria-label="En savoir plus">
-      <article class="carte-info" id="comment">
-        <h2>Comment ArnaKO décide</h2>
-        <p>ArnaKO cherche dans le message <strong><span id="nb-regles">55</span> signaux d'alerte</strong> connus&nbsp;: argent demandé, codes secrets, liens douteux, promesses trop belles, pression, scénarios d'arnaque classiques. Il déjoue aussi les camouflages comme «&nbsp;fr@is&nbsp;», «&nbsp;W h a t s A p p&nbsp;» ou les polices fantaisie.</p>
-        <p>Chaque signal vaut de 1 à 5 points. Les indices faibles (une adresse Gmail, «&nbsp;urgent&nbsp;»…) comptent au maximum pour 2 points, pour qu'une vraie offre écrite simplement ne soit pas accusée à tort.</p>
-        <ul class="niveaux">
-          <li><span class="pastille ok">Rien d'alarmant</span><span>0 ou 1 point</span></li>
-          <li><span class="pastille prudence">Prudence</span><span>2 ou 3 points</span></li>
-          <li><span class="pastille suspect">Très suspect</span><span>4 points et plus</span></li>
-        </ul>
-      </article>
-
-      <article class="carte-info">
-        <h2>Ce qu'ArnaKO ne sait pas faire</h2>
-        <p class="mesures">ArnaKO a été testé sur 342 messages (175 arnaques, 167 vraies offres). Au dernier test à l'aveugle, sur 40 messages qu'il n'avait jamais vus, il a signalé 18 arnaques sur 20 et n'a classé aucune vraie offre «&nbsp;Très suspect&nbsp;».</p>
-        <ul>
-          <li>Une arnaque écrite autrement peut passer sans déclencher de signal.</li>
-          <li>Une vraie offre peut déclencher un signal, par exemple une formation payante.</li>
-          <li>Il lit seulement le texte&nbsp;: il ne vérifie pas que l'entreprise existe, n'ouvre pas les liens et ne voit pas les images.</li>
-        </ul>
-        <p>Un verdict vert ne remplace donc pas ta vigilance. Une seule règle ne souffre aucune exception&nbsp;: on ne paie jamais pour obtenir un emploi.</p>
-      </article>
-
-      <article class="carte-info urgence large" id="deja-paye">
-        <h2>Tu as déjà payé ou donné un code&nbsp;?</h2>
-        <ol>
-          <li>Appelle tout de suite le service client de ton mobile money ou de ta banque pour tenter de bloquer l'opération.</li>
-          <li>Si tu as donné un code WhatsApp, réinstalle WhatsApp avec ton numéro pour reprendre ton compte, puis active la vérification en deux étapes.</li>
-          <li>Change tes mots de passe, en commençant par celui de ton adresse e-mail.</li>
-          <li>Garde des captures d'écran des échanges et signale l'arnaque. Au Togo&nbsp;: CERT.tg, ligne directe +228 70 54 93 25, <a href="mailto:incidents@cert.tg">incidents@cert.tg</a> (incidents@cert.tg) ou rubrique «&nbsp;Déclarer un incident&nbsp;» sur <a href="https://cert.tg/">cert.tg</a>.</li>
-          <li>Préviens tes proches&nbsp;: les escrocs se servent souvent d'un compte volé pour piéger ses contacts.</li>
-        </ol>
-      </article>
-
-      <article class="carte-info large">
-        <h2>Les signaux surveillés</h2>
-        <div class="liste-regles" id="liste-regles"></div>
-      </article>
+    <section class="reperes" id="reperes" aria-labelledby="titre-reperes">
+      <h2 id="titre-reperes"><span id="nb-regles">55</span> signaux d'arnaque surveillés</h2>
+      <ul>
+        <li>
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8"/><path d="M14.5 9.5c-.5-1-1.5-1.5-2.5-1.5-1.4 0-2.5.8-2.5 2s1 1.6 2.5 2 2.5.9 2.5 2-1.1 2-2.5 2c-1 0-2-.5-2.5-1.5M12 6.5v1.5M12 16v1.5"/></svg>
+          <span><strong>Argent demandé</strong>Frais, Flooz, Western Union</span>
+        </li>
+        <li>
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="8" cy="15" r="4"/><path d="M11 12l8-8M16 7l2 2M14 9l2 2"/></svg>
+          <span><strong>Codes secrets</strong>Code SMS, carte, papiers</span>
+        </li>
+        <li>
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M10 14a4 4 0 0 0 5.66 0l3-3a4 4 0 0 0-5.66-5.66l-1 1M14 10a4 4 0 0 0-5.66 0l-3 3a4 4 0 0 0 5.66 5.66l1-1"/></svg>
+          <span><strong>Liens douteux</strong>Liens cachés, Telegram, .apk</span>
+        </li>
+        <li>
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3l2.4 5.2 5.6.6-4.2 3.8 1.2 5.6L12 15.4 7 18.2l1.2-5.6L4 8.8l5.6-.6z"/></svg>
+          <span><strong>Fausses promesses</strong>Gains faciles, urgence, secret</span>
+        </li>
+      </ul>
     </section>
 
-    <footer class="pied">
-      <p>ArnaKO est une aide, pas une garantie. En cas de doute&nbsp;: ne paie rien, ne donne aucun code.</p>
-      <nav aria-label="Projet">
-        <a href="https://github.com/CyberAchille/arnako">Code source sur GitHub</a>
-        <a href="https://github.com/CyberAchille/arnako/issues/new?template=message-mal-analyse.yml">Signaler un message mal analysé</a>
-        <a href="https://github.com/CyberAchille/arnako/blob/main/LICENSE">Licence MIT</a>
-      </nav>
-    </footer>
-  </div>
+    <section class="resultat" id="resultat" hidden tabindex="-1" aria-label="Résultat de l'analyse"></section>
+  </main>
+
+  <footer class="pied conteneur">
+    <p>ArnaKO est une aide, pas une garantie. On ne paie jamais pour obtenir un emploi.</p>
+    <nav aria-label="Projet">
+      <button class="lien-pied" type="button" data-ouvrir="dlg-comment">Comment ça marche</button>
+      <a href="https://github.com/CyberAchille/arnako/issues/new?template=message-mal-analyse.yml">Signaler une erreur</a>
+      <a href="https://github.com/CyberAchille/arnako">Code source</a>
+    </nav>
+  </footer>
+
+  <dialog class="fenetre" id="dlg-comment" aria-labelledby="titre-comment">
+    <div class="fenetre-tete">
+      <h2 id="titre-comment">Comment ça marche</h2>
+      <button class="fermer" type="button" data-fermer aria-label="Fermer">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </div>
+    <p>ArnaKO cherche dans le message des signaux d'arnaque connus. Chaque signal vaut de 1 à 5 points, et le total donne le verdict.</p>
+    <ul class="niveaux">
+      <li><span class="puce ok"></span><strong>Rien d'alarmant</strong><span>0 ou 1 point</span></li>
+      <li><span class="puce prudence"></span><strong>Prudence</strong><span>2 ou 3 points</span></li>
+      <li><span class="puce suspect"></span><strong>Très suspect</strong><span>4 points et plus</span></li>
+    </ul>
+    <p>Testé sur 342 messages. Au dernier test à l'aveugle, il a repéré 18 arnaques sur 20 sans accuser aucune vraie offre. Une arnaque bien écrite peut quand même passer&nbsp;: un verdict vert ne garantit rien.</p>
+    <details class="liste-regles">
+      <summary>Voir les <span id="nb-regles-2">55</span> signaux</summary>
+      <div id="liste-regles"></div>
+    </details>
+  </dialog>
+
+  <dialog class="fenetre" id="dlg-urgence" aria-labelledby="titre-urgence">
+    <div class="fenetre-tete">
+      <h2 id="titre-urgence">Tu as déjà payé ou donné un code&nbsp;?</h2>
+      <button class="fermer" type="button" data-fermer aria-label="Fermer">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </div>
+    <ol class="etapes">
+      <li><strong>Bloque l'opération.</strong> Appelle tout de suite ton service mobile money ou ta banque.</li>
+      <li><strong>Reprends tes comptes.</strong> Réinstalle WhatsApp avec ton numéro, active la vérification en deux étapes et change tes mots de passe.</li>
+      <li><strong>Garde les preuves.</strong> Fais des captures d'écran des échanges.</li>
+      <li><strong>Signale l'arnaque.</strong> Au Togo&nbsp;: CERT.tg, +228 70 54 93 25, incidents@cert.tg ou «&nbsp;Déclarer un incident&nbsp;» sur <a href="https://cert.tg/">cert.tg</a>.</li>
+      <li><strong>Préviens tes proches.</strong> Un compte volé sert souvent à piéger ses contacts.</li>
+    </ol>
+  </dialog>
 </body>
 </html>
